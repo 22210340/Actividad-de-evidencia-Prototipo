@@ -5,64 +5,69 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace PatronPrototypeExamenes
+namespace PrototypeExamenesITT
 {
-    // Clase abstracta base del prototipo
+    
     abstract class Examen
     {
-        // Atributos protegidos: las clases hijas pueden acceder a ellos
-        protected string claveMateria;
-        protected string nombreAsignatura;
+        
+        protected string materia;
+        protected int cantidadPreguntas;
+        protected double rubrica;
         protected string docente;
-        protected string grupo;
         protected string salon;
-        protected DateTime fechaAplicacion;
-        protected int duracionMinutos;
-        protected string instrucciones;
+        protected string estudiante;
+        protected string tipo;
 
-        // Constructor
-        public Examen(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones)
+        
+        public Examen(string materia, int cantidadPreguntas, double rubrica,
+                      string docente, string salon, string estudiante, string tipo)
         {
-            this.claveMateria = claveMateria;
-            this.nombreAsignatura = nombreAsignatura;
+            this.materia = materia;
+            this.cantidadPreguntas = cantidadPreguntas;
+            this.rubrica = rubrica;
             this.docente = docente;
-            this.grupo = grupo;
             this.salon = salon;
-            this.fechaAplicacion = fechaAplicacion;
-            this.duracionMinutos = duracionMinutos;
-            this.instrucciones = instrucciones;
+            this.estudiante = estudiante;
+            this.tipo = tipo;
         }
 
-        // Método abstracto de clonación
+        
         public abstract Examen Clonar();
 
-        // Método para mostrar la información del examen
-        public virtual void MostrarInformacion()
+        
+        public virtual void Modalidad()
         {
-            Console.WriteLine("==============================================");
-            Console.WriteLine("TIPO DE EXAMEN: " + GetType().Name);
-            Console.WriteLine("Clave de materia : " + claveMateria);
-            Console.WriteLine("Asignatura       : " + nombreAsignatura);
-            Console.WriteLine("Docente          : " + docente);
-            Console.WriteLine("Grupo            : " + grupo);
-            Console.WriteLine("Salón            : " + salon);
-            Console.WriteLine("Fecha            : " + fechaAplicacion.ToString("dd/MM/yyyy"));
-            Console.WriteLine("Duración         : " + duracionMinutos + " minutos");
-            Console.WriteLine("Instrucciones    : " + instrucciones);
+            Console.WriteLine("Modalidad del examen: " + tipo);
         }
 
-        // Métodos para personalizar la copia
-        public void CambiarGrupo(string nuevoGrupo)
+        public virtual void Revision()
         {
-            grupo = nuevoGrupo;
+            Console.WriteLine("El docente " + docente + " revisará el examen de " + materia + ".");
+        }
+
+        public virtual void Promediar()
+        {
+            Console.WriteLine("La rúbrica aplicada al examen es del " + rubrica + "%.");
+        }
+
+        public virtual void MostrarDatos()
+        {
+            Console.WriteLine("========================================");
+            Console.WriteLine("Clase: " + GetType().Name);
+            Console.WriteLine("Materia: " + materia);
+            Console.WriteLine("Cantidad de preguntas: " + cantidadPreguntas);
+            Console.WriteLine("Rúbrica: " + rubrica + "%");
+            Console.WriteLine("Docente: " + docente);
+            Console.WriteLine("Salón: " + salon);
+            Console.WriteLine("Estudiante/Grupo: " + estudiante);
+            Console.WriteLine("Tipo: " + tipo);
+        }
+
+        
+        public void CambiarDocente(string nuevoDocente)
+        {
+            docente = nuevoDocente;
         }
 
         public void CambiarSalon(string nuevoSalon)
@@ -70,448 +75,246 @@ namespace PatronPrototypeExamenes
             salon = nuevoSalon;
         }
 
-        public void CambiarDocente(string nuevoDocente)
+        public void CambiarEstudiante(string nuevoEstudiante)
         {
-            docente = nuevoDocente;
+            estudiante = nuevoEstudiante;
         }
 
-        public void CambiarFecha(DateTime nuevaFecha)
+        public void CambiarTipo(string nuevoTipo)
         {
-            fechaAplicacion = nuevaFecha;
+            tipo = nuevoTipo;
         }
 
-        public void CambiarDuracion(int nuevaDuracion)
+        public void CambiarPreguntas(int nuevasPreguntas)
         {
-            duracionMinutos = nuevaDuracion;
+            cantidadPreguntas = nuevasPreguntas;
         }
 
-        public void CambiarInstrucciones(string nuevasInstrucciones)
+        public void CambiarRubrica(double nuevaRubrica)
         {
-            instrucciones = nuevasInstrucciones;
+            rubrica = nuevaRubrica;
         }
     }
 
-    // 1. Examen de Patrones de Diseño
+    
     class ExamenPatronesDiseno : Examen
     {
-        private string unidad;
-
-        public ExamenPatronesDiseno(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string unidad)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenPatronesDiseno(string materia, int cantidadPreguntas, double rubrica,
+                                    string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.unidad = unidad;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Unidad evaluada  : " + unidad);
-        }
     }
 
-    // 2. Examen de Programación Web
+    
     class ExamenProgramacionWeb : Examen
     {
-        private bool incluyePractica;
-
-        public ExamenProgramacionWeb(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            bool incluyePractica)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenProgramacionWeb(string materia, int cantidadPreguntas, double rubrica,
+                                     string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.incluyePractica = incluyePractica;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Incluye práctica : " + (incluyePractica ? "Sí" : "No"));
-        }
     }
 
-    // 3. Examen de Base de Datos
+    
     class ExamenBaseDatos : Examen
     {
-        private string motorBD;
-
-        public ExamenBaseDatos(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string motorBD)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenBaseDatos(string materia, int cantidadPreguntas, double rubrica,
+                               string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.motorBD = motorBD;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Motor BD         : " + motorBD);
-        }
     }
 
-    // 4. Examen de Redes
+    
     class ExamenRedes : Examen
     {
-        private string temaPrincipal;
-
-        public ExamenRedes(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string temaPrincipal)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenRedes(string materia, int cantidadPreguntas, double rubrica,
+                           string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.temaPrincipal = temaPrincipal;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Tema principal   : " + temaPrincipal);
-        }
     }
 
-    // 5. Examen de Sistemas Operativos
+    
     class ExamenSistemasOperativos : Examen
     {
-        private string plataforma;
-
-        public ExamenSistemasOperativos(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string plataforma)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenSistemasOperativos(string materia, int cantidadPreguntas, double rubrica,
+                                        string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.plataforma = plataforma;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Plataforma       : " + plataforma);
-        }
     }
 
-    // 6. Examen de Estructura de Datos
+    
     class ExamenEstructuraDatos : Examen
     {
-        private string estructuraPrincipal;
-
-        public ExamenEstructuraDatos(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string estructuraPrincipal)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenEstructuraDatos(string materia, int cantidadPreguntas, double rubrica,
+                                     string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.estructuraPrincipal = estructuraPrincipal;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Estructura clave : " + estructuraPrincipal);
-        }
     }
 
-    // 7. Examen de Inteligencia Artificial
+    
     class ExamenInteligenciaArtificial : Examen
     {
-        private string enfoque;
-
-        public ExamenInteligenciaArtificial(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string enfoque)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenInteligenciaArtificial(string materia, int cantidadPreguntas, double rubrica,
+                                            string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.enfoque = enfoque;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Enfoque          : " + enfoque);
-        }
     }
 
-    // 8. Examen de Matemáticas Discretas
+    
     class ExamenMatematicasDiscretas : Examen
     {
-        private string bloqueTematico;
-
-        public ExamenMatematicasDiscretas(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones,
-            string bloqueTematico)
-            : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+        public ExamenMatematicasDiscretas(string materia, int cantidadPreguntas, double rubrica,
+                                          string docente, string salon, string estudiante, string tipo)
+            : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
         {
-            this.bloqueTematico = bloqueTematico;
         }
 
         public override Examen Clonar()
         {
             return (Examen)this.MemberwiseClone();
         }
-
-        public override void MostrarInformacion()
-        {
-            base.MostrarInformacion();
-            Console.WriteLine("Bloque temático  : " + bloqueTematico);
-        }
     }
 
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
             List<Examen> examenes = new List<Examen>();
 
-            // ===== PROTOTIPOS ORIGINALES =====
+            
+            Examen examen1 = new ExamenPatronesDiseno(
+                "Patrones de Diseño", 20, 50, "Mtra. Maribel Guerrero",
+                "A-101", "Grupo 5A", "Escrito");
 
-            Examen prototipoPatrones = new ExamenPatronesDiseno(
-                "SCC-1015",
-                "Patrones de Diseño",
-                "Mtra. Maribel Guerrero Luis",
-                "5A",
-                "A-201",
-                new DateTime(2026, 3, 15),
-                90,
-                "Contestar con lapicero azul o negro.",
-                "Patrones Creacionales");
+            Examen examen2 = new ExamenProgramacionWeb(
+                "Programación Web", 25, 50, "Ing. Carlos Medina",
+                "LAB-1", "Grupo 6A", "Práctico");
 
-            Examen prototipoWeb = new ExamenProgramacionWeb(
-                "PW-202",
-                "Programación Web",
-                "Ing. Carlos Medina",
-                "6B",
-                "LAB-3",
-                new DateTime(2026, 3, 16),
-                100,
-                "Resolver ejercicios teóricos y prácticos.",
-                true);
+            Examen examen3 = new ExamenBaseDatos(
+                "Base de Datos", 18, 50, "Dra. Ana Torres",
+                "B-201", "Grupo 4A", "Escrito");
 
-            Examen prototipoBD = new ExamenBaseDatos(
-                "TIF-304",
-                "Base de Datos",
-                "Dra. Ana Torres",
-                "4C",
-                "B-104",
-                new DateTime(2026, 3, 17),
-                80,
-                "No se permite celular.",
-                "SQL Server");
+            Examen examen4 = new ExamenRedes(
+                "Redes de Computadoras", 22, 50, "Ing. Roberto Vázquez",
+                "LAB-RED", "Grupo 5B", "Teórico");
 
-            Examen prototipoRedes = new ExamenRedes(
-                "AEC-1058",
-                "Redes de Computadoras",
-                "Ing. Roberto Vázquez",
-                "5D",
-                "LAB-RED",
-                new DateTime(2026, 3, 18),
-                90,
-                "Examen individual.",
-                "Modelo OSI y direccionamiento IP");
+            Examen examen5 = new ExamenSistemasOperativos(
+                "Sistemas Operativos", 19, 50, "Ing. Laura Hernández",
+                "C-301", "Grupo 4B", "Mixto");
 
-            Examen prototipoSO = new ExamenSistemasOperativos(
-                "AEC-1061",
-                "Sistemas Operativos",
-                "Ing. Laura Hernández",
-                "4A",
-                "C-301",
-                new DateTime(2026, 3, 19),
-                85,
-                "Justificar respuestas abiertas.",
-                "Linux");
+            Examen examen6 = new ExamenEstructuraDatos(
+                "Estructura de Datos", 24, 50, "Ing. Miguel Sánchez",
+                "A-205", "Grupo 3A", "Escrito");
 
-            Examen prototipoED = new ExamenEstructuraDatos(
-                "AED-1026",
-                "Estructura de Datos",
-                "Ing. Miguel Sánchez",
-                "3B",
-                "A-103",
-                new DateTime(2026, 3, 20),
-                90,
-                "Puede incluir pseudocódigo.",
-                "Árboles y listas enlazadas");
+            Examen examen7 = new ExamenInteligenciaArtificial(
+                "Inteligencia Artificial", 21, 50, "Dra. Paola Jiménez",
+                "LAB-IA", "Grupo 7A", "Proyecto");
 
-            Examen prototipoIA = new ExamenInteligenciaArtificial(
-                "IA-401",
-                "Inteligencia Artificial",
-                "Dra. Paola Jiménez",
-                "7A",
-                "LAB-IA",
-                new DateTime(2026, 3, 21),
-                110,
-                "Responder teoría y caso práctico.",
-                "Aprendizaje supervisado");
+            Examen examen8 = new ExamenMatematicasDiscretas(
+                "Matemáticas Discretas", 26, 50, "Mtro. José Ramírez",
+                "D-102", "Grupo 2A", "Escrito");
 
-            Examen prototipoMD = new ExamenMatematicasDiscretas(
-                "ACF-0905",
-                "Matemáticas Discretas",
-                "Mtro. José Ramírez",
-                "2A",
-                "D-202",
-                new DateTime(2026, 3, 22),
-                75,
-                "Se permite formulario impreso.",
-                "Lógica proposicional y teoría de conjuntos");
+            examenes.Add(examen1);
+            examenes.Add(examen2);
+            examenes.Add(examen3);
+            examenes.Add(examen4);
+            examenes.Add(examen5);
+            examenes.Add(examen6);
+            examenes.Add(examen7);
+            examenes.Add(examen8);
 
-            // Guardamos los prototipos originales
-            examenes.Add(prototipoPatrones);
-            examenes.Add(prototipoWeb);
-            examenes.Add(prototipoBD);
-            examenes.Add(prototipoRedes);
-            examenes.Add(prototipoSO);
-            examenes.Add(prototipoED);
-            examenes.Add(prototipoIA);
-            examenes.Add(prototipoMD);
+            
+            Examen clonPatrones1 = examen1.Clonar();
+            clonPatrones1.CambiarEstudiante("Grupo 5B");
+            clonPatrones1.CambiarSalon("A-102");
 
-            // ===== CLONACIONES =====
-            // Misma materia, mismo docente, distinto grupo
-            Examen patronesGrupo5B = prototipoPatrones.Clonar();
-            patronesGrupo5B.CambiarGrupo("5B");
-            patronesGrupo5B.CambiarSalon("A-202");
-            patronesGrupo5B.CambiarFecha(new DateTime(2026, 3, 16));
+            Examen clonPatrones2 = examen1.Clonar();
+            clonPatrones2.CambiarEstudiante("Grupo 5C");
+            clonPatrones2.CambiarSalon("A-103");
 
-            Examen patronesGrupo5C = prototipoPatrones.Clonar();
-            patronesGrupo5C.CambiarGrupo("5C");
-            patronesGrupo5C.CambiarSalon("A-203");
-            patronesGrupo5C.CambiarFecha(new DateTime(2026, 3, 17));
+            
+            Examen clonPatrones3 = examen1.Clonar();
+            clonPatrones3.CambiarEstudiante("Grupo 5D");
+            clonPatrones3.CambiarDocente("Ing. Fernando López");
+            clonPatrones3.CambiarSalon("A-104");
 
-            // Misma materia, diferente docente
-            Examen patronesOtroDocente = prototipoPatrones.Clonar();
-            patronesOtroDocente.CambiarDocente("Ing. Fernando López");
-            patronesOtroDocente.CambiarGrupo("5D");
-            patronesOtroDocente.CambiarSalon("A-204");
-            patronesOtroDocente.CambiarFecha(new DateTime(2026, 3, 18));
+            
+            Examen clonWeb = examen2.Clonar();
+            clonWeb.CambiarEstudiante("Grupo 6B");
+            clonWeb.CambiarSalon("LAB-2");
 
-            // Programación Web en otro grupo
-            Examen webGrupo6C = prototipoWeb.Clonar();
-            webGrupo6C.CambiarGrupo("6C");
-            webGrupo6C.CambiarSalon("LAB-4");
-            webGrupo6C.CambiarFecha(new DateTime(2026, 3, 18));
+            
+            Examen clonBD = examen3.Clonar();
+            clonBD.CambiarEstudiante("Grupo 4B");
+            clonBD.CambiarDocente("Ing. Brenda Ortiz");
+            clonBD.CambiarSalon("B-202");
 
-            // Base de Datos con otro docente
-            Examen bdOtroDocente = prototipoBD.Clonar();
-            bdOtroDocente.CambiarDocente("Ing. Brenda Ortiz");
-            bdOtroDocente.CambiarGrupo("4D");
-            bdOtroDocente.CambiarSalon("B-105");
+            
+            Examen clonIA = examen7.Clonar();
+            clonIA.CambiarEstudiante("Grupo 7B");
+            clonIA.CambiarSalon("LAB-IA-2");
 
-            // Redes en otro grupo
-            Examen redesGrupo5E = prototipoRedes.Clonar();
-            redesGrupo5E.CambiarGrupo("5E");
-            redesGrupo5E.CambiarFecha(new DateTime(2026, 3, 19));
+            examenes.Add(clonPatrones1);
+            examenes.Add(clonPatrones2);
+            examenes.Add(clonPatrones3);
+            examenes.Add(clonWeb);
+            examenes.Add(clonBD);
+            examenes.Add(clonIA);
 
-            // IA otro grupo
-            Examen iaGrupo7B = prototipoIA.Clonar();
-            iaGrupo7B.CambiarGrupo("7B");
-            iaGrupo7B.CambiarSalon("LAB-IA-2");
-
-            examenes.Add(patronesGrupo5B);
-            examenes.Add(patronesGrupo5C);
-            examenes.Add(patronesOtroDocente);
-            examenes.Add(webGrupo6C);
-            examenes.Add(bdOtroDocente);
-            examenes.Add(redesGrupo5E);
-            examenes.Add(iaGrupo7B);
-
-            // ===== MOSTRAR TODOS LOS EXÁMENES =====
-            Console.WriteLine("SISTEMA DE EXÁMENES UTILIZANDO EL PATRÓN PROTOTYPE\n");
+            
+            Console.WriteLine("SISTEMA DE EXÁMENES CON PATRÓN PROTOTYPE\n");
 
             foreach (Examen examen in examenes)
             {
-                examen.MostrarInformacion();
+                examen.MostrarDatos();
+                examen.Modalidad();
+                examen.Revision();
+                examen.Promediar();
                 Console.WriteLine();
             }
 
-            Console.WriteLine("Presiona una tecla para finalizar...");
+            Console.WriteLine("Presiona una tecla para salir...");
             Console.ReadKey();
         }
     }
