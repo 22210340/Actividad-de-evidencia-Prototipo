@@ -26,35 +26,27 @@ abstract class Examen
 ```
 ## Atributos protegidos
 ```csharp
- protected string claveMateria;
- protected string nombreAsignatura;
+protected string materia;
+ protected int cantidadPreguntas;
+ protected double rubrica;
  protected string docente;
- protected string grupo;
  protected string salon;
- protected DateTime fechaAplicacion;
- protected int duracionMinutos;
- protected string instrucciones;
+ protected string estudiante;
+ protected string tipo;
 ```
 ## Contructor
 ```csharp
-        public Examen(
-            string claveMateria,
-            string nombreAsignatura,
-            string docente,
-            string grupo,
-            string salon,
-            DateTime fechaAplicacion,
-            int duracionMinutos,
-            string instrucciones)
-        {
-            this.claveMateria = claveMateria;
-            this.nombreAsignatura = nombreAsignatura;
-            this.docente = docente;
-            this.grupo = grupo;
-            this.salon = salon;
-            this.fechaAplicacion = fechaAplicacion;
-            this.duracionMinutos = duracionMinutos;
-            this.instrucciones = instrucciones;
+  public Examen(string materia, int cantidadPreguntas, double rubrica,
+                string docente, string salon, string estudiante, string tipo)
+  {
+      this.materia = materia;
+      this.cantidadPreguntas = cantidadPreguntas;
+      this.rubrica = rubrica;
+      this.docente = docente;
+      this.salon = salon;
+      this.estudiante = estudiante;
+      this.tipo = tipo;
+  }
 ```
 ## Método abstracto de clonación
 ```csharp
@@ -62,82 +54,80 @@ public abstract Examen Clonar();
 ```
 ## Método mostrar interfaz
 ```csharp
- public virtual void MostrarInformacion()
+ public virtual void Modalidad()
  {
-     Console.WriteLine("==============================================");
-     Console.WriteLine("TIPO DE EXAMEN: " + GetType().Name);
-     Console.WriteLine("Clave de materia : " + claveMateria);
-     Console.WriteLine("Asignatura       : " + nombreAsignatura);
-     Console.WriteLine("Docente          : " + docente);
-     Console.WriteLine("Grupo            : " + grupo);
-     Console.WriteLine("Salón            : " + salon);
-     Console.WriteLine("Fecha            : " + fechaAplicacion.ToString("dd/MM/yyyy"));
-     Console.WriteLine("Duración         : " + duracionMinutos + " minutos");
-     Console.WriteLine("Instrucciones    : " + instrucciones);
+     Console.WriteLine("Modalidad del examen: " + tipo);
+ }
+
+ public virtual void Revision()
+ {
+     Console.WriteLine("El docente " + docente + " revisará el examen de " + materia + ".");
+ }
+
+ public virtual void Promediar()
+ {
+     Console.WriteLine("La rúbrica aplicada al examen es del " + rubrica + "%.");
+ }
+
+ public virtual void MostrarDatos()
+ {
+     Console.WriteLine("========================================");
+     Console.WriteLine("Clase: " + GetType().Name);
+     Console.WriteLine("Materia: " + materia);
+     Console.WriteLine("Cantidad de preguntas: " + cantidadPreguntas);
+     Console.WriteLine("Rúbrica: " + rubrica + "%");
+     Console.WriteLine("Docente: " + docente);
+     Console.WriteLine("Salón: " + salon);
+     Console.WriteLine("Estudiante/Grupo: " + estudiante);
+     Console.WriteLine("Tipo: " + tipo);
+ }
  }
 ```
 ## Método Para realizar copias y su personalizacion
 ```csharp
- public void CambiarGrupo(string nuevoGrupo)
- {
-     grupo = nuevoGrupo;
- }
+public void CambiarDocente(string nuevoDocente)
+{
+    docente = nuevoDocente;
+}
 
- public void CambiarSalon(string nuevoSalon)
- {
-     salon = nuevoSalon;
- }
+public void CambiarSalon(string nuevoSalon)
+{
+    salon = nuevoSalon;
+}
 
- public void CambiarDocente(string nuevoDocente)
- {
-     docente = nuevoDocente;
- }
+public void CambiarEstudiante(string nuevoEstudiante)
+{
+    estudiante = nuevoEstudiante;
+}
 
- public void CambiarFecha(DateTime nuevaFecha)
- {
-     fechaAplicacion = nuevaFecha;
- }
+public void CambiarTipo(string nuevoTipo)
+{
+    tipo = nuevoTipo;
+}
 
- public void CambiarDuracion(int nuevaDuracion)
- {
-     duracionMinutos = nuevaDuracion;
- }
+public void CambiarPreguntas(int nuevasPreguntas)
+{
+    cantidadPreguntas = nuevasPreguntas;
+}
 
- public void CambiarInstrucciones(string nuevasInstrucciones)
- {
-     instrucciones = nuevasInstrucciones;
- }
+public void CambiarRubrica(double nuevaRubrica)
+{
+    rubrica = nuevaRubrica;
+}
 ```
 ## Examenes solo un Ejemplo
 ```csharp
 class ExamenPatronesDiseno : Examen
 {
-    private string unidad;
-
-    public ExamenPatronesDiseno(
-        string claveMateria,
-        string nombreAsignatura,
-        string docente,
-        string grupo,
-        string salon,
-        DateTime fechaAplicacion,
-        int duracionMinutos,
-        string instrucciones,
-        string unidad)
-        : base(claveMateria, nombreAsignatura, docente, grupo, salon, fechaAplicacion, duracionMinutos, instrucciones)
+    public ExamenPatronesDiseno(string materia, int cantidadPreguntas, double rubrica,
+                                string docente, string salon, string estudiante, string tipo)
+        : base(materia, cantidadPreguntas, rubrica, docente, salon, estudiante, tipo)
     {
-        this.unidad = unidad;
     }
 
     public override Examen Clonar()
     {
         return (Examen)this.MemberwiseClone();
-    }
-
-    public override void MostrarInformacion()
-    {
-        base.MostrarInformacion();
-        Console.WriteLine("Unidad evaluada  : " + unidad);
     }
 }
 ```
@@ -145,166 +135,104 @@ class ExamenPatronesDiseno : Examen
 ```csharp
  List<Examen> examenes = new List<Examen>();
 
- Examen prototipoPatrones = new ExamenPatronesDiseno(
-     "SCC-1015",
-     "Patrones de Diseño",
-     "Mtra. Maribel Guerrero Luis",
-     "5A",
-     "A-201",
-     new DateTime(2026, 3, 15),
-     90,
-     "Contestar con lapicero azul o negro.",
-     "Patrones Creacionales");
+ // PROTOTIPOS ORIGINALES (8 materias distintas)
+ Examen examen1 = new ExamenPatronesDiseno(
+     "Patrones de Diseño", 20, 50, "Mtra. Maribel Guerrero",
+     "A-101", "Grupo 5A", "Escrito");
 
- Examen prototipoWeb = new ExamenProgramacionWeb(
-     "PW-202",
-     "Programación Web",
-     "Ing. Carlos Medina",
-     "6B",
-     "LAB-3",
-     new DateTime(2026, 3, 16),
-     100,
-     "Resolver ejercicios teóricos y prácticos.",
-     true);
+ Examen examen2 = new ExamenProgramacionWeb(
+     "Programación Web", 25, 50, "Ing. Carlos Medina",
+     "LAB-1", "Grupo 6A", "Práctico");
 
- Examen prototipoBD = new ExamenBaseDatos(
-     "TIF-304",
-     "Base de Datos",
-     "Dra. Ana Torres",
-     "4C",
-     "B-104",
-     new DateTime(2026, 3, 17),
-     80,
-     "No se permite celular.",
-     "SQL Server");
+ Examen examen3 = new ExamenBaseDatos(
+     "Base de Datos", 18, 50, "Dra. Ana Torres",
+     "B-201", "Grupo 4A", "Escrito");
 
- Examen prototipoRedes = new ExamenRedes(
-     "AEC-1058",
-     "Redes de Computadoras",
-     "Ing. Roberto Vázquez",
-     "5D",
-     "LAB-RED",
-     new DateTime(2026, 3, 18),
-     90,
-     "Examen individual.",
-     "Modelo OSI y direccionamiento IP");
+ Examen examen4 = new ExamenRedes(
+     "Redes de Computadoras", 22, 50, "Ing. Roberto Vázquez",
+     "LAB-RED", "Grupo 5B", "Teórico");
 
- Examen prototipoSO = new ExamenSistemasOperativos(
-     "AEC-1061",
-     "Sistemas Operativos",
-     "Ing. Laura Hernández",
-     "4A",
-     "C-301",
-     new DateTime(2026, 3, 19),
-     85,
-     "Justificar respuestas abiertas.",
-     "Linux");
+ Examen examen5 = new ExamenSistemasOperativos(
+     "Sistemas Operativos", 19, 50, "Ing. Laura Hernández",
+     "C-301", "Grupo 4B", "Mixto");
 
- Examen prototipoED = new ExamenEstructuraDatos(
-     "AED-1026",
-     "Estructura de Datos",
-     "Ing. Miguel Sánchez",
-     "3B",
-     "A-103",
-     new DateTime(2026, 3, 20),
-     90,
-     "Puede incluir pseudocódigo.",
-     "Árboles y listas enlazadas");
+ Examen examen6 = new ExamenEstructuraDatos(
+     "Estructura de Datos", 24, 50, "Ing. Miguel Sánchez",
+     "A-205", "Grupo 3A", "Escrito");
 
- Examen prototipoIA = new ExamenInteligenciaArtificial(
-     "IA-401",
-     "Inteligencia Artificial",
-     "Dra. Paola Jiménez",
-     "7A",
-     "LAB-IA",
-     new DateTime(2026, 3, 21),
-     110,
-     "Responder teoría y caso práctico.",
-     "Aprendizaje supervisado");
+ Examen examen7 = new ExamenInteligenciaArtificial(
+     "Inteligencia Artificial", 21, 50, "Dra. Paola Jiménez",
+     "LAB-IA", "Grupo 7A", "Proyecto");
 
- Examen prototipoMD = new ExamenMatematicasDiscretas(
-     "ACF-0905",
-     "Matemáticas Discretas",
-     "Mtro. José Ramírez",
-     "2A",
-     "D-202",
-     new DateTime(2026, 3, 22),
-     75,
-     "Se permite formulario impreso.",
-     "Lógica proposicional y teoría de conjuntos");
+ Examen examen8 = new ExamenMatematicasDiscretas(
+     "Matemáticas Discretas", 26, 50, "Mtro. José Ramírez",
+     "D-102", "Grupo 2A", "Escrito");
 ```
 ## Donde se guarda los prototipos originales
 ```csharp
-examenes.Add(prototipoPatrones);
-examenes.Add(prototipoWeb);
-examenes.Add(prototipoBD);
-examenes.Add(prototipoRedes);
-examenes.Add(prototipoSO);
-examenes.Add(prototipoED);
-examenes.Add(prototipoIA);
-examenes.Add(prototipoMD);
+examenes.Add(examen1);
+examenes.Add(examen2);
+examenes.Add(examen3);
+examenes.Add(examen4);
+examenes.Add(examen5);
+examenes.Add(examen6);
+examenes.Add(examen7);
+examenes.Add(examen8);
 ```
 ## Clonaciones (Misma materia, Mismo Docente, Distinto grupo) 
 ```csharp
- Examen patronesGrupo5B = prototipoPatrones.Clonar();
- patronesGrupo5B.CambiarGrupo("5B");
- patronesGrupo5B.CambiarSalon("A-202");
- patronesGrupo5B.CambiarFecha(new DateTime(2026, 3, 16));
+Examen clonPatrones1 = examen1.Clonar();
+clonPatrones1.CambiarEstudiante("Grupo 5B");
+clonPatrones1.CambiarSalon("A-102");
 
- Examen patronesGrupo5C = prototipoPatrones.Clonar();
- patronesGrupo5C.CambiarGrupo("5C");
- patronesGrupo5C.CambiarSalon("A-203");
- patronesGrupo5C.CambiarFecha(new DateTime(2026, 3, 17));
+Examen clonPatrones2 = examen1.Clonar();
+clonPatrones2.CambiarEstudiante("Grupo 5C");
+clonPatrones2.CambiarSalon("A-103");
 
- 
- Examen patronesOtroDocente = prototipoPatrones.Clonar();
- patronesOtroDocente.CambiarDocente("Ing. Fernando López");
- patronesOtroDocente.CambiarGrupo("5D");
- patronesOtroDocente.CambiarSalon("A-204");
- patronesOtroDocente.CambiarFecha(new DateTime(2026, 3, 18));
+// Misma materia, diferente docente
+Examen clonPatrones3 = examen1.Clonar();
+clonPatrones3.CambiarEstudiante("Grupo 5D");
+clonPatrones3.CambiarDocente("Ing. Fernando López");
+clonPatrones3.CambiarSalon("A-104");
 
- 
- Examen webGrupo6C = prototipoWeb.Clonar();
- webGrupo6C.CambiarGrupo("6C");
- webGrupo6C.CambiarSalon("LAB-4");
- webGrupo6C.CambiarFecha(new DateTime(2026, 3, 18));
+// Programación Web, otro grupo
+Examen clonWeb = examen2.Clonar();
+clonWeb.CambiarEstudiante("Grupo 6B");
+clonWeb.CambiarSalon("LAB-2");
 
+// Base de Datos, otro docente
+Examen clonBD = examen3.Clonar();
+clonBD.CambiarEstudiante("Grupo 4B");
+clonBD.CambiarDocente("Ing. Brenda Ortiz");
+clonBD.CambiarSalon("B-202");
 
- Examen bdOtroDocente = prototipoBD.Clonar();
- bdOtroDocente.CambiarDocente("Ing. Brenda Ortiz");
- bdOtroDocente.CambiarGrupo("4D");
- bdOtroDocente.CambiarSalon("B-105");
+// IA, otro grupo
+Examen clonIA = examen7.Clonar();
+clonIA.CambiarEstudiante("Grupo 7B");
+clonIA.CambiarSalon("LAB-IA-2");
 
- 
- Examen redesGrupo5E = prototipoRedes.Clonar();
- redesGrupo5E.CambiarGrupo("5E");
- redesGrupo5E.CambiarFecha(new DateTime(2026, 3, 19));
-
-
- Examen iaGrupo7B = prototipoIA.Clonar();
- iaGrupo7B.CambiarGrupo("7B");
- iaGrupo7B.CambiarSalon("LAB-IA-2");
-
- examenes.Add(patronesGrupo5B);
- examenes.Add(patronesGrupo5C);
- examenes.Add(patronesOtroDocente);
- examenes.Add(webGrupo6C);
- examenes.Add(bdOtroDocente);
- examenes.Add(redesGrupo5E);
- examenes.Add(iaGrupo7B);
+examenes.Add(clonPatrones1);
+examenes.Add(clonPatrones2);
+examenes.Add(clonPatrones3);
+examenes.Add(clonWeb);
+examenes.Add(clonBD);
+examenes.Add(clonIA);
 ```
 ## Impresion De Codigo 
 ```csharp
-Console.WriteLine("SISTEMA DE EXÁMENES UTILIZANDO EL PATRÓN PROTOTYPE\n");
+ Console.WriteLine("SISTEMA DE EXÁMENES CON PATRÓN PROTOTYPE\n");
 
-foreach (Examen examen in examenes)
-{
-    examen.MostrarInformacion();
-    Console.WriteLine();
-}
+ foreach (Examen examen in examenes)
+ {
+     examen.MostrarDatos();
+     examen.Modalidad();
+     examen.Revision();
+     examen.Promediar();
+     Console.WriteLine();
+ }
 
-Console.WriteLine("Presiona una tecla para finalizar...");
-Console.ReadKey();
+ Console.WriteLine("Presiona una tecla para salir...");
+ Console.ReadKey();
 ```
 
 
@@ -343,7 +271,7 @@ public override Examen Clonar()
 
 Y cuando se usa así:
 ```csharp
-Examen patronesGrupo5B = prototipoPatrones.Clonar();
+Examen clonPatrones2 = examen1.Clonar();
 ```
 Eso crea una copia del examen original.
 
@@ -351,14 +279,13 @@ Eso crea una copia del examen original.
 # Donde se ve la herencia
 
 ```csharp
-protected string claveMateria;
-protected string nombreAsignatura;
+protected string materia;
+protected int cantidadPreguntas;
+protected double rubrica;
 protected string docente;
-protected string grupo;
 protected string salon;
-protected DateTime fechaAplicacion;
-protected int duracionMinutos;
-protected string instrucciones;
+protected string estudiante;
+protected string tipo;
 ```
 Son protected porque:
 no se exponen directamente al exterior,
