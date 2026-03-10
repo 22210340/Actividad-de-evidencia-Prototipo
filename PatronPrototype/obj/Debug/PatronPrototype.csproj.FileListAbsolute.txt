@@ -1,0 +1,7 @@
+C:\Users\Wasky\source\repos\PatronPrototype\bin\Debug\PatronPrototype.exe.config
+C:\Users\Wasky\source\repos\PatronPrototype\bin\Debug\PatronPrototype.exe
+C:\Users\Wasky\source\repos\PatronPrototype\bin\Debug\PatronPrototype.pdb
+C:\Users\Wasky\source\repos\PatronPrototype\obj\Debug\PatronPrototype.csproj.AssemblyReference.cache
+C:\Users\Wasky\source\repos\PatronPrototype\obj\Debug\PatronPrototype.csproj.CoreCompileInputs.cache
+C:\Users\Wasky\source\repos\PatronPrototype\obj\Debug\PatronPrototype.exe
+C:\Users\Wasky\source\repos\PatronPrototype\obj\Debug\PatronPrototype.pdb
