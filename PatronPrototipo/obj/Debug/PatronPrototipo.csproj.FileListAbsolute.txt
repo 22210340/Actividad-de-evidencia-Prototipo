@@ -1,7 +1,0 @@
-C:\Users\Wasky\source\repos\PatronPrototipo\bin\Debug\PatronPrototipo.exe.config
-C:\Users\Wasky\source\repos\PatronPrototipo\bin\Debug\PatronPrototipo.exe
-C:\Users\Wasky\source\repos\PatronPrototipo\bin\Debug\PatronPrototipo.pdb
-C:\Users\Wasky\source\repos\PatronPrototipo\obj\Debug\PatronPrototipo.csproj.AssemblyReference.cache
-C:\Users\Wasky\source\repos\PatronPrototipo\obj\Debug\PatronPrototipo.csproj.CoreCompileInputs.cache
-C:\Users\Wasky\source\repos\PatronPrototipo\obj\Debug\PatronPrototipo.exe
-C:\Users\Wasky\source\repos\PatronPrototipo\obj\Debug\PatronPrototipo.pdb
